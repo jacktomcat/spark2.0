@@ -26,7 +26,7 @@ object SqlWindow {
       .option("encoding","UTF-8")
       .option("header",true)
       .option("timestampFormat","yyyy-MM-dd HH:mm:ss")
-      .csv("d:/logs.csv")
+      .csv("/Users/zhuhuihui/idea-works/spark2.0/src/main/java/com/gochinatv/spark/logs.csv")
 
     import org.apache.spark.sql.functions._
 
