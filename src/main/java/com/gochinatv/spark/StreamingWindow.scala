@@ -5,7 +5,7 @@ import org.apache.spark.streaming.kafka.KafkaUtils
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
 /**
-  * Created by tingyun on 2017/7/12.
+  * Created by jacktomcat on 2017/7/12.
   */
 object StreamingWindow {
 

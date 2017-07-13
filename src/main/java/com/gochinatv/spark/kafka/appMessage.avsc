@@ -1,0 +1,15 @@
+{
+    "namespace": "com.gochinatv.spark.kafka",
+    "type": "record",
+    "name": "WrapperAppMessage",
+    "fields": [
+        {"name": "timestamp", "type": "long" },
+        {"name": "count", "type": "int" },
+        {"name": "value", "type": "float"},
+        {"name": "agreeId", "type": "int" },
+        {"name": "cityId", "type": "int" },
+        {"name": "provinceId", "type": "int" },
+        {"name": "instanceId", "type": "int" },
+        {"name": "connectType", "type": "int" }
+    ]
+}
