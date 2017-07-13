@@ -10,17 +10,23 @@ import org.apache.spark.{SparkConf, SparkContext}
   * https://databricks.com/blog/2016/08/15/how-to-use-sparksession-in-apache-spark-2-0.html
   *
   * https://www.iteblog.com/archives/1719.html
-  * 
+  *
   * http://blog.madhukaraphatak.com/introduction-to-spark-two-part-5/
   *
   */
 object SqlWindow {
 
   def main(args: Array[String]): Unit = {
-    // val sparkConf = new SparkConf().setAppName("SparkSqlWindow").setMaster("local[*]")
-    // val sc = new SparkContext(sparkConf)
 
     val sparkSession = SparkSession.builder().master("local[*]").appName("SparkSqlWindow").getOrCreate()
+
+    /**
+      * get a hiveContext
+      *
+      * val sparkSession =
+      * SparkSession.builder().master("local[*]").appName("SparkSqlWindow").enableHiveSupport().getOrCreate()
+      */
+
     val sqlContext = sparkSession.sqlContext
     val dataFrame = sqlContext.read
       .option("encoding","UTF-8")
@@ -53,6 +59,19 @@ object SqlWindow {
 
     printWindow(result)
 
+    //
+    val lines = sparkSession.readStream
+      .format("socket")
+      .option("host", "localhost")
+      .option("port", 9999)
+      .load()
+    //sparkSession.read
+    //sparkSession.readStream
+
+    sparkSession.read.format("").load().groupBy(window(dataFrame(""),""))
+
+    val worldCount = lines.as[String].flatMap(_.split(" ")).groupBy("").count();
+    worldCount.writeStream.outputMode("append").format("parquet")
 
   }
 
