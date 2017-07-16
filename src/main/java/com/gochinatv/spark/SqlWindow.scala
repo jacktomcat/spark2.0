@@ -59,19 +59,17 @@ object SqlWindow {
 
     printWindow(result)
 
-    //
+    /**
     val lines = sparkSession.readStream
       .format("socket")
       .option("host", "localhost")
       .option("port", 9999)
-      .load()
-    //sparkSession.read
-    //sparkSession.readStream
+      .load()**/
 
-    sparkSession.read.format("").load().groupBy(window(dataFrame(""),""))
+    //sparkSession.read.format("").load().groupBy(window(dataFrame(""),""))
 
-    val worldCount = lines.as[String].flatMap(_.split(" ")).groupBy("").count();
-    worldCount.writeStream.outputMode("append").format("parquet")
+    //val worldCount = lines.as[String].flatMap(_.split(" ")).groupBy("").count();
+    //worldCount.writeStream.outputMode("append").format("parquet")
 
   }
 
