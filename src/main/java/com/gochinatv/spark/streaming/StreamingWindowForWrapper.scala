@@ -40,10 +40,12 @@ object StreamingWindowForWrapper {
     )
 
     val inputStream = KafkaUtils.createStream[String,WrapperAppMessage,StringDecoder,WrapperDecoder](ssc, kafkaParams, Map[String, Int]((topic -> 1)), storageLevel)
-
     val wrapperStream = inputStream.map(_._2).map(msg => WrapperMessage(msg.getTimestamp, msg.getCount, msg.getValue, msg.getAgreeId, msg.getCityId, msg.getProvinceId, msg.getInstanceId, msg.getConnectType))
+    wrapperStream.transform(message=>{
+      message.
 
-    wrapperStream.print();
+    })
+    //wrapperStream.print();
 
     ssc.start()
     ssc.awaitTermination()

@@ -1,7 +1,6 @@
-package com.gochinatv.spark
+package com.gochinatv.spark.sql
 
 import org.apache.spark.sql.{DataFrame, SparkSession}
-import org.apache.spark.{SparkConf, SparkContext}
 
 
 /**
@@ -14,7 +13,7 @@ import org.apache.spark.{SparkConf, SparkContext}
   * http://blog.madhukaraphatak.com/introduction-to-spark-two-part-5/
   *
   */
-object SqlWindow {
+object SqlWindowForStructuredStreaming {
 
   def main(args: Array[String]): Unit = {
 
@@ -32,7 +31,7 @@ object SqlWindow {
       .option("encoding","UTF-8")
       .option("header",true)
       .option("timestampFormat","yyyy-MM-dd HH:mm:ss")
-      .csv("/Users/zhuhuihui/idea-works/spark2.0/src/main/java/com/gochinatv/spark/logs.csv")
+      .csv("logs.csv")
 
     import org.apache.spark.sql.functions._
 

@@ -23,7 +23,8 @@ public class KafkaSendMessage {
 	public static String servers="localhost:9092";
 
 	public static void main(String[] args) throws Exception {
-		sendStringMessage();
+		//sendStringMessage();
+		sendWrapperMessage();
 	}
 
 
