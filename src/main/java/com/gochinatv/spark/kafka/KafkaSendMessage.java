@@ -23,8 +23,8 @@ public class KafkaSendMessage {
 	public static String servers="localhost:9092";
 
 	public static void main(String[] args) throws Exception {
-		//sendStringMessage();
-		sendWrapperMessage();
+		sendStringMessage();
+		//sendWrapperMessage();
 	}
 
 
@@ -45,7 +45,8 @@ public class KafkaSendMessage {
 		int i=0;
 		while(i<1000){
 			Thread.sleep(1000L);
-			producer.send(new ProducerRecord<>("NL_U_APP_ALARM_APP_STRING","{name:sex}"));
+			String message = "zhangsan"+i;
+			producer.send(new ProducerRecord<>("NL_U_APP_ALARM_APP_STRING",message));
 			i++;
 			producer.flush();
 		}

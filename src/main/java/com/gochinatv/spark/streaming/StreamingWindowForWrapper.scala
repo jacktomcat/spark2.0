@@ -57,7 +57,6 @@ object StreamingWindowForWrapper {
       result.rdd
     }).print(100)
 
-
     //wrapperStream.print();
 
     ssc.start()
