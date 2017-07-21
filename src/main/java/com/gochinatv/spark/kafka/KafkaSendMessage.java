@@ -77,7 +77,7 @@ public class KafkaSendMessage {
 			message.setCount((i+100)%10);
 			message.setInstanceId((i+1)%6);
 			message.setProvinceId((i+1)%4);
-			message.setTimestamp(System.currentTimeMillis()/1000);
+			message.setTimestamp(System.currentTimeMillis());
 			message.setValue((float)((i+200)%4));
 			producer.send(new ProducerRecord<>("NL_U_APP_ALARM_APP",message));
 			System.out.println(message.toString());
