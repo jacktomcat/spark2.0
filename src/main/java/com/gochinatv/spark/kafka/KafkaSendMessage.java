@@ -20,9 +20,43 @@ import org.apache.kafka.clients.producer.ProducerRecord;
  */
 public class KafkaSendMessage {
 
+	public static String servers="localhost:9092";
+
 	public static void main(String[] args) throws Exception {
+		sendStringMessage();
+		//sendWrapperMessage();
+	}
+
+
+	public static void  sendStringMessage() throws Exception{
 		Properties props = new Properties();
-		props.put("bootstrap.servers", "192.168.2.150:9092");
+		props.put("bootstrap.servers", servers);
+		props.put("acks", "all");
+		props.put("retries", 0);
+		props.put("batch.size", 16384);
+		props.put("linger.ms", 1);
+		props.put("buffer.memory", 33554432);
+		props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+		props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+
+		Producer<String, String> producer = new org.apache.kafka.clients.producer.KafkaProducer<>(props);
+
+		//没有任何分区，默认1个分区，发送消息
+		int i=0;
+		while(i<1000){
+			Thread.sleep(1000L);
+			String message = "zhangsan"+i;
+			producer.send(new ProducerRecord<>("NL_U_APP_ALARM_APP_STRING",message));
+			i++;
+			producer.flush();
+		}
+		producer.close();
+	}
+
+
+	public static void  sendWrapperMessage() throws Exception {
+		Properties props = new Properties();
+		props.put("bootstrap.servers", servers);
 		props.put("acks", "all");
 		props.put("retries", 0);
 		props.put("batch.size", 16384);
@@ -30,7 +64,6 @@ public class KafkaSendMessage {
 		props.put("buffer.memory", 33554432);
 		props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 		props.put("value.serializer", "com.gochinatv.spark.kafka.SerializedMessage");
-
 		Producer<String, WrapperAppMessage> producer = new org.apache.kafka.clients.producer.KafkaProducer<>(props);
 
 		//case 1:
@@ -45,35 +78,14 @@ public class KafkaSendMessage {
 			message.setCount((i+100)%10);
 			message.setInstanceId((i+1)%6);
 			message.setProvinceId((i+1)%4);
-			message.setTimestamp(System.currentTimeMillis()/1000);
+			message.setTimestamp(System.currentTimeMillis());
 			message.setValue((float)((i+200)%4));
 			producer.send(new ProducerRecord<>("NL_U_APP_ALARM_APP",message));
-            System.out.println(message.toString());
-            i++;
+			System.out.println(message.toString());
+			i++;
 			producer.flush();
 		}
 		producer.close();
-
-		//case 2
-		//发送带时间戳的message
-		 /*producer.send(new ProducerRecord<String, String>("spark-test", 0, 1490608032358L, Integer.toString(100), Integer.toString(100)+"-jackjboss"));
-		 producer.send(new ProducerRecord<String, String>("spark-test", 1, 1490608031358L, Integer.toString(200), Integer.toString(200)+"-jackjboss"));
-		 producer.send(new ProducerRecord<String, String>("spark-test", 2, 1490608039358L, Integer.toString(300), Integer.toString(300)+"-jackjboss"));
-		 producer.flush();
-		 producer.close();*/
-
-		//case 3
-		//需要使用命令行创建topic并且指定分区数，同时发送消息至分区
-		 /*while(true){
-			 Thread.sleep(1000L);
-		 producer.send(new ProducerRecord<String, String>("spark-test", 0, Integer.toString(100), Integer.toString(100)+"-jackjboss"));
-		 producer.send(new ProducerRecord<String, String>("spark-test", 1, Integer.toString(200), Integer.toString(200)+"-jackjboss"));
-		 producer.send(new ProducerRecord<String, String>("spark-test", 2, Integer.toString(300), Integer.toString(300)+"-jackjboss"));
-		 i = i+1;
-		 }*/
-		//producer.flush();
-		//producer.close();
-
 	}
 
 }
